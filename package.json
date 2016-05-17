@@ -7,6 +7,15 @@
   },
   "dependencies": {
     "express": "3.21.2",
-    "ejs": "*"
+    "ejs": "*",
+    "mongodb":"*",
+    "mongodb-core":"*",
+    "connect-mongo":"~1.0.2",
+    "kerberos":"*",
+    "connect-flash":"*",
+    "markdown":"*",
+    "mongoose":"*",
+    "async":"*",
+    "express-handlebars":"*"
   }
 }

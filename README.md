@@ -1,4 +1,4 @@
-###NodeBlog
+##NodeBlog
 我的个人博客，
 后端使用Node.js+Express开发，
 前端使用Zepto.js类库，

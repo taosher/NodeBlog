@@ -10,6 +10,7 @@ var path = require('path');
 var MongoStore = require('connect-mongo')(express);
 var settings = require('./settings');
 var exphbs = require('express-handlebars');
+var flash = require('connect-flash');
 
 var app = express();
 
@@ -21,8 +22,8 @@ app.engine('hbs',exphbs({
     layoutsDir:'views',
     extname:'.hbs'  
 }));
-
 app.set('view engine', 'hbs');
+app.use(flash());
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());

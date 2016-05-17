@@ -1,4 +1,4 @@
-var mangodb = require('./db');
+var mongodb = require('./db');
 
 var User = function(user) {
     this.name = user.name;
@@ -13,7 +13,7 @@ User.get = function(name,callback) {
             mongodb.close();
             return callback(err);
         };
-        db.collection('user',function(err,collection) {
+        db.collection('users',function(err,collection) {
             //error process
             if (err) {
                 mongodb.close();
@@ -33,3 +33,4 @@ User.get = function(name,callback) {
     });
 };
 
+module.exports = User;
