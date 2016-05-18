@@ -15,7 +15,7 @@ Post.prototype.save = function(callback) {
     var date = new Date();
     var time = {
         year:date.getFullYear(),
-        month:date.getMonth + 1,
+        month:date.getMonth() + 1,
         day:date.getDate(),
         hour:date.getHours(),
         minute:date.getMinutes()        
@@ -53,7 +53,7 @@ Post.prototype.save = function(callback) {
     });
 };
 
-Post.getOne = function(route,timeStamp,callback) {
+Post.getOne = function(route,callback) {
     // if (route) {
         mongodb.open(function(err,db) {
             if (err) {
@@ -67,14 +67,18 @@ Post.getOne = function(route,timeStamp,callback) {
                 };
                 collection.findOne({
                     route:route,
-                    timeStamp:timeStamp
-                },function(err,dec) {
+                },function(err,doc) {
                     mongodb.close();
                     if (err) {
                         return callback(err);
                     };
-                    doc.content = markdown.toHTML(doc.content);
-                    callback(null,doc);
+                    if (doc){   
+                        doc.content = markdown.toHTML(doc.content);
+                        callback(null,doc); 
+                    } else {    //if page not found
+                        callback('404');
+                    }
+                    
                 });
             });
         });
@@ -111,3 +115,4 @@ Post.getSome = function(page,callback) {
         });
     });
 };
+//

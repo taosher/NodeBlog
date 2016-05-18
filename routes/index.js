@@ -1,7 +1,3 @@
-
-/*
- * GET home page.
- */
 var crypto = require('crypto');
 var User = require('../models/user');
 var Post = require('../models/post');
@@ -126,31 +122,40 @@ module.exports = function(app) {
     });
     
     app.get('/article/:route',function(req,res) {
-        var rot = /a-zA-Z/.test(route);    //route or timeStamp(route:true,timeStamp:false)
-        if ( rot ) {
-            Post.getOne(route,null,function(err,doc) {
-                if ( err ) {
-                    console.log(err);
-                    
-                };
-                res.render('article',{
+        Post.getOne(req.params.route,function(err,doc) {
+            //error process
+            if ( err ) {
+                if ( err === '404') {   //if page not found
+                    return res.redirect('/404');
+                } else {
+                    return console.log(err);
+                }
+            };
+            return res.render('article',{
                     title:doc.title,
                     tags:doc.tags,
                     time:doc.time,
                     content:doc.content,
                     series:doc.series
-                });
             });
-        } else if ()
-    })
+        });
+    });
+        
+    app.use(function(req,res) {
+        return res.redirect('/404');
+    });
+    
+    app.get('/404',function (req,res) {
+        return res.render('404');
+    });
 };
 
 
 
 
 // todo:
-//     1.route 与 timeStamp 路由写好
-//     2.找不到文章后的404页面
-//     3.错误路径的404处理
+//     1.route 与 timeStamp 路由写好........√
+//     2.找不到文章后的404页面........√
+//     3.错误路径的404处理........√
 //     4.标签页和归档页
 //     5.前端工作

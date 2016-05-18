@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>凤歌-文章发布</title>
+    <link rel="stylesheet" href="/stylesheets/post.css">
 </head>
 <body>
     <form method="post">
-        <input type="text" name="title">
-        <input type="text" name="tags">
-        <textarea name="content" id="" cols="100" rows="20"></textarea>
-        <input type="text" name="series">
-        <input type="text" name="route">
-        <br>
+        <label for="tit">title:</label>
+        <input id="tit" type="text" name="title">
+        <label for="tags">tags:</label>
+        <input id="tags" type="text" name="tags">
+        <label for="content">content:</label>
+        <textarea name="content" id="content" cols="100" rows="20"></textarea>
+        <label for="series">series:</label>
+        <input id="series"type="text" name="series">
+        <label for="route">route</label>
+        <input id="route" type="text" name="route">
         <input type="submit" value="发布">
     </form> 
 </body>
