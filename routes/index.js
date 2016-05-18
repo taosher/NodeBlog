@@ -77,7 +77,7 @@ module.exports = function(app) {
             console.log('req.body.password:',req.body.password);
             if (!user) {
                 // console.log('1');
-                req.flash('errer','用户不存在');
+                req.flash('error','用户不存在');
                 return res.redirect('/login');
             } else if (password !== user.password) {
                 // console.log('password:',password,'userpassword:',user.password);

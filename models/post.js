@@ -115,4 +115,3 @@ Post.getSome = function(page,callback) {
         });
     });
 };
-//
