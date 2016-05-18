@@ -136,10 +136,48 @@ module.exports = function(app) {
                     tags:doc.tags,
                     time:doc.time,
                     content:doc.content,
-                    series:doc.series
+                    series:doc.series,
+                    route:doc.route
             });
         });
     });
+    
+    app.get('/edit/:route',function(req,res) {
+        Post.edit(req.params.route,function(err,doc) {
+            if (err) {
+                if (err === '404') {
+                    return res.redirect('/404');
+                };
+                return console.log(err);
+            };
+            return res.render('edit',{
+                    title:doc.title,
+                    tags:doc.tags,
+                    time:doc.time,
+                    content:doc.content,
+                    series:doc.series,
+                    route:doc.route
+            });
+        });
+    });
+    
+    app.post('/edit:route',function(req,res) {
+        var backURL = req.header('Referer') || '/';
+        var route = req.params.route;
+        var post = {
+            title:req.body.title,
+            series:req.body.series,
+            tags:req.body.tags,
+            content:req.body.content,
+        };
+        Post.update(route,post,function(err) {
+            if (err === '404') {
+                return res.redirect('back');
+            };
+            req.flash('success','修改成功！');
+            return res.redirect('/');
+        });
+    })
         
     app.use(function(req,res) {
         return res.redirect('/404');
@@ -159,3 +197,4 @@ module.exports = function(app) {
 //     3.错误路径的404处理........√
 //     4.标签页和归档页
 //     5.前端工作
+//     6.编辑与删除

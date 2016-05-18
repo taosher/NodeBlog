@@ -53,6 +53,50 @@ Post.prototype.save = function(callback) {
     });
 };
 
+
+// Post.prototype.update = function(callback) {
+//     var date = new Date();
+//     var time = {
+//         year:date.getFullYear(),
+//         month:date.getMonth() + 1,
+//         day:date.getDate(),
+//         hour:date.getHours(),
+//         minute:date.getMinutes()        
+//     };    
+//     var post = {
+//         title:this.title,
+//         time:time,
+//         timeStamp:date.getTime(),
+//         series:this.series,
+//         tags:this.tags,
+//         content:this.content,
+//         route:this.route
+//     };
+    
+//     mongodb.open(function(err,db) {
+//         if (err) {
+//             mongodb.close();
+//             return callback(err);
+//         };
+//         db.collection('posts',function(err,collection) {
+//             if (err) {
+//                 mongodb.close();
+//                 return callback(err);
+//             };
+//             collection.insert(post,{
+//                 safe:true
+//             },function(err) {
+//                 mongodb.close();
+//                 if (err) {
+//                     return callback(err);
+//                 };
+//                 callback(null);
+//             });
+//         });
+//     });    
+// };
+
+
 Post.getOne = function(route,callback) {
     // if (route) {
         mongodb.open(function(err,db) {
@@ -114,4 +158,66 @@ Post.getSome = function(page,callback) {
             });
         });
     });
+};
+
+
+Post.edit = function(route,callback) {
+    mongodb.open(function(err,db) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            };
+            db.collection('posts',function(err,collection) {
+                if (err) {
+                    mongodb.close();
+                    return callback(err);
+                };
+                collection.findOne({
+                    route:route,
+                },function(err,doc) {
+                    mongodb.close();
+                    if (err) {
+                        return callback(err);
+                    };
+                    if (doc){   
+                        callback(null,doc); 
+                    } else {    //if page not found
+                        callback('404');
+                    };                    
+                });
+            });
+        });
+};
+
+
+Post.update = function(route,post,callback) {
+    mongodb.open(function(err,db) {
+        if (err) {
+            mongodb.close();
+            return callback(err);
+        };
+        db.collection('posts',function(err,collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            };
+            collection.update({
+                'route':route
+            },{
+                $set:{
+                    title:post.title,
+                    series:post.series,
+                    tags:post.tags,
+                    content:post.content
+                }
+              },function(err) {
+                    mongodb.close();
+                    if (err) {
+                        return callback('404');
+                    };
+                    callback(null);
+                });
+        });
+    });
+    
 };
